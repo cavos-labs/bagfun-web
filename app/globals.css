@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'Rama Gothic Bold';
+  src: url('/fonts/ramagothicbold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --color-dark-bg: #141414;
+  --font-rama: 'Rama Gothic Bold', system-ui, sans-serif;
+  --font-inter: 'Inter', system-ui, sans-serif;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --dark-bg: #141414;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: var(--dark-bg);
+    --foreground: #ededed;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter);
+  margin: 0;
+  padding: 0;
+}
+
+/* Scroll animations */
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s ease-out;
+}
+
+.fade-in-up.animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-in-left {
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: all 0.6s ease-out;
+}
+
+.fade-in-left.animate {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.fade-in-right {
+  opacity: 0;
+  transform: translateX(30px);
+  transition: all 0.6s ease-out;
+}
+
+.fade-in-right.animate {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.scale-in {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: all 0.6s ease-out;
+}
+
+.scale-in.animate {
+  opacity: 1;
+  transform: scale(1);
+}
