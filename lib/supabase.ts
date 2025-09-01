@@ -16,3 +16,13 @@ export interface WaitlistEntry {
   email: string
   created_at?: string
 }
+
+export interface Token {
+  id?: string
+  name: string
+  ticker: string
+  image_url?: string
+  amount: number
+  creator_address: string
+  created_at?: string
+}
