@@ -65,7 +65,7 @@ export default function Home() {
               DEGEN IN YOUR FINGERTIPS
             </h2>
             <p className="font-inter text-gray-400 text-base sm:text-lg md:text-xl max-w-md mx-auto md:mx-0">
-              next level degen experience, in your pocket, 24/7, rug everyone in your bed.
+              next level degen experience, in your pocket, 24/7, trade from your bed, wake up being rich (or broke).
             </p>
           </div>
           <div className="order-1 md:order-2 fade-in-right">
