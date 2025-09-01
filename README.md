@@ -4,6 +4,20 @@ This is the web component of the bag.fun project, built with [Next.js](https://n
 - **API Backend**: Provides API endpoints for the bag.fun mobile and web application
 - **Landing Page**: Serves as the public-facing website for bag.fun
 
+## API Endpoints
+
+### Token Management
+- `GET /api/tokens` - Get all tokens (with pagination)
+- `POST /api/tokens` - Create new token
+- `GET /api/tokens/[id]` - Get token by ID
+- `PUT /api/tokens/[id]` - Update token
+- `DELETE /api/tokens/[id]` - Delete token (owner only)
+
+### Waitlist
+- `POST /api/waitlist` - Join waitlist
+
+All token endpoints require API key authentication via `x-api-key` header.
+
 ## Project Structure
 
 ### Public Assets
@@ -55,6 +69,7 @@ This project uses Supabase for backend services, specifically for waitlist manag
    ```env
    NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
    SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+   API_KEY=your_secret_api_key
    ```
 
 ## Getting Started
@@ -76,6 +91,16 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+
+## Testing
+
+Run the test suite:
+
+```bash
+npm test
+```
+
+The project includes comprehensive tests for API endpoints, validation, and security features.
 
 ## Learn More
 
