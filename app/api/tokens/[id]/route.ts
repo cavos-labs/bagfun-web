@@ -5,7 +5,7 @@ import { validateApiKey, createUnauthorizedResponse } from '@/lib/auth'
 // GET /api/tokens/[id] - Get a specific token by ID
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   // Validate API key
   if (!validateApiKey(request)) {
@@ -13,7 +13,7 @@ export async function GET(
   }
 
   try {
-    const { id } = params
+    const { id } = await params
 
     if (!id) {
       return NextResponse.json(
@@ -55,7 +55,7 @@ export async function GET(
 // PUT /api/tokens/[id] - Update a specific token
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   // Validate API key
   if (!validateApiKey(request)) {
@@ -63,7 +63,7 @@ export async function PUT(
   }
 
   try {
-    const { id } = params
+    const { id } = await params
     const body = await request.json()
     const { name, ticker, image_url, amount, creator_address } = body
 
@@ -203,7 +203,7 @@ export async function PUT(
 // DELETE /api/tokens/[id] - Delete a specific token (only by owner)
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   // Validate API key
   if (!validateApiKey(request)) {
@@ -211,7 +211,7 @@ export async function DELETE(
   }
 
   try {
-    const { id } = params
+    const { id } = await params
     const body = await request.json()
     const { creator_address } = body
 
