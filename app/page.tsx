@@ -7,7 +7,7 @@ import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
-    <div className="bg-dark-bg min-h-screen text-white snap-y snap-mandatory">
+    <div className="bg-dark-bg min-h-screen text-white overflow-y-scroll snap-y snap-mandatory h-screen">
       <ScrollAnimations />
       <SectionNavigation />
 
