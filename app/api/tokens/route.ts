@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin, Token } from '@/lib/supabase'
 import { validateApiKey, createUnauthorizedResponse } from '@/lib/auth'
+import { uploadToPinata } from '@/lib/pinata'
 
 // GET /api/tokens - Get all tokens or filter by creator_address
 export async function GET(request: NextRequest) {
@@ -69,7 +70,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json()
-    const { name, ticker, image_url, amount, creator_address } = body
+    const { name, ticker, image_url, amount, creator_address, image_file } = body
 
     // Validate required fields
     if (!name || !ticker || !creator_address) {
@@ -140,11 +141,47 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Handle image upload to Pinata if image_file is provided
+    let finalImageUrl = image_url || null
+    
+    if (image_file) {
+      try {
+        // Convert base64 or file data to buffer
+        let imageBuffer: Buffer
+        if (typeof image_file === 'string') {
+          // Handle base64 string
+          const base64Data = image_file.replace(/^data:image\/[a-z]+;base64,/, '')
+          imageBuffer = Buffer.from(base64Data, 'base64')
+        } else {
+          // Handle file buffer
+          imageBuffer = Buffer.from(image_file)
+        }
+
+        // Upload image to Pinata
+        const imageResult = await uploadToPinata(imageBuffer, {
+          name: `${ticker}-${name}-image`,
+          keyvalues: {
+            tokenName: name,
+            tokenTicker: ticker,
+            creatorAddress: creator_address
+          }
+        })
+
+        finalImageUrl = imageResult.url
+      } catch (imageError) {
+        console.error('Error uploading image to Pinata:', imageError)
+        return NextResponse.json(
+          { error: 'Failed to upload image to IPFS' },
+          { status: 500 }
+        )
+      }
+    }
+
     // Create new token
     const tokenData: Omit<Token, 'id' | 'created_at'> = {
       name,
       ticker,
-      image_url: image_url || null,
+      image_url: finalImageUrl,
       amount: amount || 0,
       creator_address
     }
@@ -164,7 +201,10 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json(
-      { message: 'Token created successfully', data },
+      { 
+        message: 'Token created successfully', 
+        data
+      },
       { status: 201 }
     )
   } catch (error) {
