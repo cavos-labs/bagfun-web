@@ -176,9 +176,19 @@ export async function POST(request: NextRequest) {
 
     if (imageFile) {
       try {
-        // Convert File to buffer
-        const bytes = await imageFile.arrayBuffer();
-        const imageBuffer = Buffer.from(bytes);
+        let imageBuffer: Buffer;
+
+        if (imageFile instanceof File) {
+          // Handle File object (from FormData)
+          const bytes = await imageFile.arrayBuffer();
+          imageBuffer = Buffer.from(bytes);
+        } else if (typeof imageFile === 'string') {
+          // Handle base64 string (from JSON)
+          const base64Data = imageFile.replace(/^data:image\/[a-z]+;base64,/, '');
+          imageBuffer = Buffer.from(base64Data, 'base64');
+        } else {
+          throw new Error('Invalid image file format');
+        }
 
         // Upload image to Pinata
         const imageResult = await uploadToPinata(imageBuffer, {
