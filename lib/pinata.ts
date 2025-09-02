@@ -1,4 +1,5 @@
 import pinataSDK from "@pinata/sdk";
+import { Readable } from "stream";
 
 const pinata = new pinataSDK(
   process.env.PINATA_API_KEY as string,
@@ -26,12 +27,12 @@ export async function uploadToPinata(
   metadata: PinataMetadata
 ): Promise<PinataUploadResult> {
   try {
-    // Create a readable stream from buffer
-    const readableStream = new ReadableStream({
-      start(controller) {
-        controller.enqueue(buffer);
-        controller.close();
-      },
+    // Create a Node.js readable stream from buffer
+    const readableStream = new Readable({
+      read() {
+        this.push(buffer);
+        this.push(null); // End the stream
+      }
     });
 
     const result = await pinata.pinFileToIPFS(readableStream, {
