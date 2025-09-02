@@ -77,7 +77,7 @@ export async function POST(request: NextRequest) {
 
     let name: string, ticker: string, amount: number, creator_address: string;
     let image_url: string | null = null;
-    let imageFile: File | null = null;
+    let imageFile: File | string | null = null;
 
     // Handle FormData (with file upload) or JSON
     if (contentType.includes("multipart/form-data")) {
