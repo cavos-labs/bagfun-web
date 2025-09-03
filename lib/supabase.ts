@@ -24,5 +24,7 @@ export interface Token {
   image_url?: string
   amount: number
   creator_address: string
+  contract_address?: string
+  website?: string
   created_at?: string
 }

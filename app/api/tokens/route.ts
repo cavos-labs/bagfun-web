@@ -76,6 +76,8 @@ export async function POST(request: NextRequest) {
     const contentType = request.headers.get("content-type") || "";
 
     let name: string, ticker: string, amount: number, creator_address: string;
+    let contract_address: string | null = null;
+    let website: string | null = null;
     let image_url: string | null = null;
     let imageFile: File | string | null = null;
 
@@ -87,6 +89,8 @@ export async function POST(request: NextRequest) {
       ticker = formData.get("ticker") as string;
       creator_address = formData.get("creator_address") as string;
       amount = parseInt(formData.get("amount") as string) || 0;
+      contract_address = (formData.get("contract_address") as string) || null;
+      website = (formData.get("website") as string) || null;
       image_url = (formData.get("image_url") as string) || null;
       imageFile = (formData.get("image") as File) || null;
     } else {
@@ -95,6 +99,8 @@ export async function POST(request: NextRequest) {
       ticker = body.ticker;
       creator_address = body.creator_address;
       amount = body.amount || 0;
+      contract_address = body.contract_address || null;
+      website = body.website || null;
       image_url = body.image_url || null;
       imageFile = body.image_file || null;
     }
@@ -217,6 +223,8 @@ export async function POST(request: NextRequest) {
       image_url: finalImageUrl || undefined,
       amount: amount || 0,
       creator_address,
+      contract_address: contract_address || undefined,
+      website: website || undefined,
     };
 
     const { data, error } = await supabaseAdmin
