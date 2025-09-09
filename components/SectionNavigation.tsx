@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 
 const sections = [
   { id: 'hero', label: 'Home' },
+  { id: 'launch', label: 'Launch' },
   { id: 'create', label: 'Create' },
   { id: 'mobile', label: 'Mobile' },
   { id: 'waitlist', label: 'Waitlist' }
@@ -14,24 +15,43 @@ export default function SectionNavigation() {
 
   useEffect(() => {
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      let maxRatio = 0
+      let mostVisibleSection = ''
+      
       entries.forEach((entry) => {
-        if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
-          setActiveSection(entry.target.id)
+        if (entry.isIntersecting && entry.intersectionRatio > maxRatio) {
+          maxRatio = entry.intersectionRatio
+          mostVisibleSection = entry.target.id
         }
       })
+      
+      if (mostVisibleSection && maxRatio > 0.3) {
+        setActiveSection(mostVisibleSection)
+      }
     }
 
     const observer = new IntersectionObserver(observerCallback, {
-      threshold: 0.5,
+      threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
       rootMargin: '-10% 0px -10% 0px'
     })
 
-    sections.forEach(({ id }) => {
-      const element = document.getElementById(id)
-      if (element) observer.observe(element)
-    })
+    // Add a small delay to ensure DOM elements are ready
+    const timeoutId = setTimeout(() => {
+      sections.forEach(({ id }) => {
+        const element = document.getElementById(id)
+        if (element) {
+          console.log(`Observing section: ${id}`) // Debug log
+          observer.observe(element)
+        } else {
+          console.log(`Section not found: ${id}`) // Debug log
+        }
+      })
+    }, 100)
 
-    return () => observer.disconnect()
+    return () => {
+      clearTimeout(timeoutId)
+      observer.disconnect()
+    }
   }, [])
 
   const scrollToSection = (sectionId: string) => {

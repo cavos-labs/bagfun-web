@@ -2,7 +2,7 @@
 
 export default function ScrollIndicator() {
   const scrollToNext = () => {
-    document.getElementById('create')?.scrollIntoView({ behavior: 'smooth' })
+    document.getElementById('launch')?.scrollIntoView({ behavior: 'smooth' })
   }
 
   return (

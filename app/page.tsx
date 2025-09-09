@@ -34,6 +34,34 @@ export default function Home() {
         <ScrollIndicator />
       </section>
 
+      {/* Launch Now Section */}
+      <section id="launch" className="min-h-screen flex items-center justify-center px-4 py-12 sm:py-16 snap-start snap-always">
+        <div className="text-center fade-in-up">
+          <a
+            href="https://app.bbag.fun"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block group transition-all duration-300"
+          >
+            <Image
+              src="/launch-now.png"
+              alt="Launch Now"
+              width={800}
+              height={600}
+              className="w-full h-auto max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl mx-auto group-hover:hidden"
+            />
+            <Image
+              src="/launch-now-hover.png"
+              alt="Launch Now"
+              width={800}
+              height={600}
+              className="w-full h-auto max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl mx-auto hidden group-hover:block"
+            />
+          </a>
+          <p>click on ye</p>
+        </div>
+      </section>
+
       {/* Create Coin Section */}
       <section id="create" className="min-h-screen flex items-center px-4 py-12 sm:py-16 snap-start snap-always">
         <div className="max-w-6xl mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 items-center">
